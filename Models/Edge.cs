@@ -1,5 +1,7 @@
 ﻿namespace Slitherlink.Models {
-	public record class Edge(
+	public class Edge(
 		bool IsOn = false
-	);
+	) {
+		public bool IsOn { get; set; } = IsOn;
+	}
 }

@@ -73,18 +73,22 @@ namespace Slitherlink.View {
 			}
 
 			for (int i = 0; i < 2; i++) {
-				RectangleShape edge = new(new Vector2f(cellSize + _edgeWidth, _edgeWidth)) {
-					FillColor = new Color(cell.Edges[i * 2].Item1.IsOn ? Color.Black : new Color(100, 100, 100)),
-					Position = position + new Vector2f(-_edgeWidth / 2, cellSize * i - _edgeWidth / 2)
+				int width = cell.Edges[i * 2].Item1.IsOn ? _edgeWidth : _edgeWidth / 2;
+
+				RectangleShape edge = new(new Vector2f(cellSize + _edgeWidth, width)) {
+					FillColor = new Color(Color.Black),
+					Position = position + new Vector2f(-_edgeWidth / 2, cellSize * i - width / 2)
 				};
 
 				_window.Draw(edge);
 			}
 
 			for (int i = 0; i < 2; i++) {
-				RectangleShape edge = new(new Vector2f(_edgeWidth, cellSize + _edgeWidth)) {
-					FillColor = new Color(cell.Edges[i * 2 + 1].Item1.IsOn ? Color.Black : new Color(100, 100, 100)),
-					Position = position + new Vector2f(cellSize * i - _edgeWidth / 2, -_edgeWidth / 2)
+				int width = cell.Edges[i * 2].Item1.IsOn ? _edgeWidth : _edgeWidth / 2;
+
+				RectangleShape edge = new(new Vector2f(width, cellSize + _edgeWidth)) {
+					FillColor = new Color(Color.Black),
+					Position = position + new Vector2f(cellSize * i - width / 2, -_edgeWidth / 2)
 				};
 
 				_window.Draw(edge);

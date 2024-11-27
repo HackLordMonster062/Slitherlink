@@ -21,6 +21,8 @@ namespace Slitherlink {
 			);
 
 			Initialize();
+
+			GenerateLevel();
 		}
 
 		void Initialize() {
@@ -29,7 +31,7 @@ namespace Slitherlink {
 
 		void InitCell(Cell cell, Cell? cellAbove, Cell? cellOnLeft, int depthW, int depthH) {
 			Random random = new Random();
-			int value = random.Next(-5, 3);
+			int value = random.Next(-5, 4);
 
 			if (value >= 0) cell.Value = value;
 
@@ -56,7 +58,7 @@ namespace Slitherlink {
 			}
 
 			// Edge + cell below
-			if (depthH < Height - 1) {
+			if (depthW == 0 && depthH < Height) {
 				cell.Edges[Bottom] = (new Edge(), new Cell([]));
 				InitCell(cell.Edges[Bottom].Item2!, cell, null, depthW, depthH + 1);
 			} else {
@@ -76,6 +78,32 @@ namespace Slitherlink {
 			}
 
 			return cell;
+		}
+
+		public void GenerateLevel() {
+			Random rand = new Random();
+			Cell currCell = GetCell(rand.Next(Width), rand.Next(Height));
+
+			HashSet<Cell> path = [currCell];
+
+			for (int i = 0; i < 50; i++) {
+				int dir = rand.Next(4);
+
+				(Edge _, Cell? newCell) = currCell.Edges[dir];
+
+				if (newCell == null)
+					continue;
+
+				path.Add(newCell);
+			}
+
+			foreach (Cell cell in path) {
+				foreach ((Edge edge, Cell? neighbor) in cell.Edges.Values) {
+					if (neighbor == null || !path.Contains(neighbor)) {
+						edge.IsOn = true;
+					}
+				}
+			}
 		}
 	}
 }
