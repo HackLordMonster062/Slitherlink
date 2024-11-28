@@ -30,29 +30,37 @@ namespace Slitherlink {
 			_gridRoot = gridRoot;
 		}
 
-		public SquareGrid CopyWithEdges() {
-			Cell? currCell = _gridRoot;
-			Cell? currNewCell = null;
+		public SquareGrid Copy(bool withEdgeValues) {
+			Dictionary<Cell, Cell> oldToNew = [];
 
-			Cell? rowOrigin = currCell;
-			Cell? newRowOrigin = null;
-
-			for (int x = 0; x < Width; x++) {
-				for (int y = 0; y < Height; y++) {
-					int count = 0;
-
-					foreach ((Edge edge, Cell? neighbor) in currCell!.Edges.Values) {
-						if (edge.IsOn) count++;
-					}
-
-					currCell.Value = count;
-
-					currCell = currCell.Edges[Right].Item2;
+			void CopyCell(Cell originalCell) {
+				if (oldToNew.ContainsKey(originalCell)) {
+					return;
 				}
 
-				rowOrigin = rowOrigin!.Edges[Bottom].Item2;
-				currCell = rowOrigin;
+				Cell newCell = new([]);
+				oldToNew[originalCell] = newCell;
+
+				newCell.Value = originalCell.Value;
+
+				foreach (var (dir, (edge, neighbor)) in originalCell.Edges) {
+					if (neighbor != null) CopyCell(neighbor);
+				}
 			}
+
+			CopyCell(_gridRoot);
+
+			foreach ((Cell originalCell, Cell newCell) in oldToNew) {
+				foreach (var (dir, (edge, neighbor)) in originalCell.Edges) {
+					Edge newEdge = new(withEdgeValues && edge.IsOn);
+
+					Cell? newNeighbor = neighbor == null ? null : oldToNew[neighbor];
+
+					newCell.Edges[dir] = (newEdge, newNeighbor);
+				}
+			}
+
+			return new SquareGrid(Width, Height, oldToNew[_gridRoot]);
 		}
 
 		void Initialize() {
