@@ -84,11 +84,11 @@ namespace Slitherlink.View {
 			}
 
 			for (int i = 0; i < 2; i++) {
-				int width = cell.Edges[i * 2].Item1.IsOn ? _edgeWidth : _edgeWidth / 2;
+				int width = cell.Edges[i * 2 + 1].Item1.IsOn ? _edgeWidth : _edgeWidth / 2;
 
 				RectangleShape edge = new(new Vector2f(width, cellSize + _edgeWidth)) {
 					FillColor = new Color(Color.Black),
-					Position = position + new Vector2f(cellSize * i - width / 2, -_edgeWidth / 2)
+					Position = position + new Vector2f(cellSize * (1-i) - width / 2, -_edgeWidth / 2)
 				};
 
 				_window.Draw(edge);

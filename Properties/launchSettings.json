@@ -2,7 +2,7 @@
   "profiles": {
     "Slitherlink": {
       "commandName": "Project",
-      "workingDirectory": "D:\\Users\\Oshri\\Projects\\Coding\\C#\\Slitherlink"
+      "workingDirectory": "C:\\Projects\\Programming\\C#\\Slitherlink"
     }
   }
 }
