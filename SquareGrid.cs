@@ -2,10 +2,10 @@
 
 namespace Slitherlink {
 	class SquareGrid {
-		const int Top = 0;
-		const int Right = 1;
-		const int Bottom = 2;
-		const int Left = 3;
+		public const int Top = 0;
+		public const int Right = 1;
+		public const int Bottom = 2;
+		public const int Left = 3;
 
 		public int Width { get; private set; }
 		public int Height { get; private set; }

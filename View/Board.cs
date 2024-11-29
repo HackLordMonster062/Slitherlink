@@ -16,6 +16,7 @@ namespace Slitherlink.View {
 			_window = window;
 
 			_grid = new SquareGrid(width, height);
+			_grid = _grid.Copy(false);
 
 			_edgeWidth = edgeWidth;
 			_font = font;
